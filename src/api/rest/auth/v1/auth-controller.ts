@@ -1,13 +1,19 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { GenericResponse } from '../../definition';
+import authService from '../../../../service/auth/auth-service';
 
 const router = express.Router();
 
-router.post('/v1/login', (req: Request, res: Response, next: NextFunction) => {
+router.post('/v1/login', async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const loginRequest = req.body;
 
-    throw Error('method not implemented');
+    const result = await authService.login(loginRequest);
 
+    return res.json({
+      success: true,
+      data: result,
+    });
   } catch (err) {
     next(err);
   }
