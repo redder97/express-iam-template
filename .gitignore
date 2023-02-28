@@ -1,0 +1,23 @@
+node_modules/
+
+keys/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+.fleet/
+
+### VS Code ###
+.vscode/
+
+### Env Files ###
+.env
+.env.*
+!.env.example
+
+*.http
