@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  database:
+    container_name: database
+    image: postgres:14.5-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=iam
+    ports:
+      - 5432:5432
+    healthcheck:
+        test: ["CMD", "psql", "-h", "localhost", "-U", "postgres"]
+        interval: 3s
+        timeout: 10s
+        retries: 5
+    networks:
+      - iam_network
+
+  iam-service:
+    environment:
+      - NODE_ENV=dev
+      - DATABASE_URL=postgresql://postgres:postgres@database:5432/iam?connect_timeout=2000
+    build:
+      dockerfile: Dockerfile.dev
+    depends_on:
+      database:
+        condition: service_healthy
+
+    container_name: iam-service
+    ports:
+      - 8080:8080
+    networks:
+      - iam_network
+
+networks:
+  iam_network:
+    name: iam_network

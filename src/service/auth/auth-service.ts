@@ -1,7 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { LoginRequest } from '../../api/rest/auth/definition';
-import { GenericResponse } from '../../api/rest/definition';
-import log from 'npmlog';
 import auth from '../../util/auth';
 import { UserView } from './definition';
 
