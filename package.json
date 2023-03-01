@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc --outDir dist",
     "dev": "export NODE_ENV=dev && ts-node-dev src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker:db:run": "npx prisma db push && node dist/index.js"
   },
   "author": "Red Anton",
   "license": "ISC",

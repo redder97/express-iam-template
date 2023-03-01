@@ -1,5 +1,4 @@
 ## Express IAM Server Template
-
 This is a template for IAM auth server.
 
 ### Technology Stack Used
@@ -14,6 +13,10 @@ This is a template for IAM auth server.
 `npm install`
 - Run the application
 `npm run dev`
+- Generate prisma client
+`npx prisma generate`
+- Push prisma schema
+`npx prisma db push`
 
 ### Starting the application as a service (docker)
 - Run docker command (`-d` for detached instance):
@@ -28,3 +31,5 @@ This is a template for IAM auth server.
 
 - Private Key (PKCS8):
 `openssl pkcs8 -topk8 -nocrypt -in jwtRS256.key > private_key.pem`
+
+- create a `/certs` file and copy generated keys.
