@@ -21,7 +21,7 @@ const login = async (login: LoginRequest) => {
       throw Error('user not found');
     }
 
-    if (!auth.comparePassword(login.password, foundUser.password)) {
+    if (foundUser.password && !auth.comparePassword(login.password, foundUser.password)) {
       throw Error('invalid password');
     }
 
