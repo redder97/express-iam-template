@@ -3,6 +3,7 @@ import log from 'npmlog';
 import bodyParser from 'body-parser';
 import AuthController from './api/rest/auth/v1/auth-controller';
 import RegistrationController from './api/rest/registration/v1/register-controller';
+import GoogleController from './api/rest/google/v1/google-controller';
 import config from './config';
 import auth from './util/auth';
 
@@ -18,6 +19,7 @@ app.get('/public/.well-known/jwks.json', (req: Request, res: Response) => {
 
 app.use('/api', AuthController);
 app.use('/api', RegistrationController);
+app.use('/api', GoogleController)
 
 app.listen(PORT, () => {
   log.info(``, `IAM server started at port ${PORT}`);
