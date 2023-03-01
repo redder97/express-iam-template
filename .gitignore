@@ -2,6 +2,7 @@ node_modules/
 
 keys/
 certs/
+dist/
 
 ### IntelliJ IDEA ###
 .idea
