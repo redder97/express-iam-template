@@ -25,12 +25,12 @@ const login = async (login: LoginRequest) => {
       throw Error('invalid password');
     }
 
-    return new UserView(foundUser);
+    return { token: auth.signJWT({ id: foundUser.id, ...new UserView(foundUser) }) };
   } catch (err: any) {
     throw err;
   }
 };
 
 export default Object.freeze({
-    login
-})
+  login,
+});

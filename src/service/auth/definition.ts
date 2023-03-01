@@ -14,3 +14,14 @@ export class UserView {
     }
 
 }
+
+export type AuthResponse = {
+    token: string
+}
+
+export type JWTpayload = {
+    id: number,
+    email: string,
+    username: string
+    roles?: string[]
+}
