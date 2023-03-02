@@ -10,7 +10,6 @@ const saltRounds = config.SALT_ROUNDS
 
 const hashPassword = (plaintext: string): string => {
   const salt = bcrypt.genSaltSync(parseInt(saltRounds as string));
-  console.log(salt)
   return bcrypt.hashSync(plaintext, parseInt(salt as string));
 };
 
