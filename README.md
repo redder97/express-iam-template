@@ -17,6 +17,9 @@ This is a template for IAM auth server.
 
 - create a `/certs` file and copy generated keys.
 
+### Notes before starting
+- Refer to `.env.example` for necessary environment variables
+
 ### Starting the application
 - Install the dependencies
 `npm install`
