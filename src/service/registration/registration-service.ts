@@ -3,33 +3,22 @@ import { RegistrationRequest } from '../../api/rest/registration/definition';
 import log from 'npmlog';
 import util from '../../util/auth';
 import { GoogleProfile, GoogleRegistration } from '../auth/definition';
-
-const prisma = new PrismaClient();
+import datasource from '../../database/datasource';
+import userRepository from '../../repository/user-repository';
 
 const register = async (registration: RegistrationRequest) => {
-  const existingUser = await prisma.user.findFirst({
-    where: {
-      OR: [
-        {
-          username: registration.username,
-        },
-        {
-          email: registration.email,
-        },
-      ],
-    },
-  });
-
-  if (existingUser) {
-    throw Error('username or email already exists!');
-  }
+  const { username, email } = registration;
 
   try {
-    const createdUser = await prisma.user.create({
-      data: {
-        ...registration,
-        password: util.hashPassword(registration.password),
-      },
+    const existingUser = await userRepository.findByEmailOrUsername(email, username);
+
+    if (existingUser) {
+      throw Error('username or email already exists!');
+    }
+
+    const createdUser = await userRepository.createUser({
+      ...registration,
+      password: util.hashPassword(registration.password),
     });
 
     return createdUser;
@@ -42,56 +31,22 @@ const register = async (registration: RegistrationRequest) => {
 };
 
 const registerWithGoogle = async (registration: GoogleRegistration) => {
+  const { email, provider } = registration;
 
-  const existingUser = await prisma.user.findFirst({
-    where: {
-      AND: [
-        {
-          email: registration.email,
-        },
-        {
-          provider: registration.provider,
-        },
-      ],
-    },
-  });
+  const existingUser = await userRepository.findUserByEmailAndProvider(email, provider);
 
   if (existingUser) {
     return existingUser;
   }
 
-  const alreadyRegisteredEmail = await prisma.user.findFirst({
-    where: {
-      AND: [
-        {
-          OR: [
-            {
-              provider: null
-            },
-            {
-              NOT: {
-                provider: registration.provider
-              }
-            }
-          ]
-        },
-        {
-          email: registration.email,
-        },
-      ],
-    },
-  });
+  const alreadyRegisteredEmail = await userRepository.findByEmailAndNotProvider(email, provider);
 
   if (alreadyRegisteredEmail) {
     throw Error('Your email is already registered');
   }
 
   try {
-    const createdUser = await prisma.user.create({
-      data: {
-        ...registration,
-      },
-    });
+    const createdUser = await userRepository.createUser(registration);
 
     return createdUser;
   } catch (err: any) {
@@ -103,11 +58,7 @@ const registerWithGoogle = async (registration: GoogleRegistration) => {
 };
 
 const userExists = async (email: string): Promise<boolean> => {
-  const foundUser = await prisma.user.findFirst({
-    where: {
-      email,
-    },
-  });
+  const foundUser = await userRepository.findByEmail(email);
 
   return !!foundUser;
 };
