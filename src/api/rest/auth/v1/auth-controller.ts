@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { GenericResponse } from '../../definition';
 import authService from '../../../../service/auth/auth-service';
+import config from '../../../../config';
 
 const router = express.Router();
 
@@ -8,12 +9,9 @@ router.post('/v1/login', async (req: Request, res: Response, next: NextFunction)
   try {
     const loginRequest = req.body;
 
-    const result = await authService.login(loginRequest);
+    const {token} = await authService.login(loginRequest);
 
-    return res.json({
-      success: true,
-      data: result,
-    });
+    res.redirect(`${config.OAUTH_SUCCESS_REDIRECT}?token=${token}`);
   } catch (err) {
     next(err);
   }

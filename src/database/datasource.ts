@@ -1,5 +1,14 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
+import log from 'npmlog';
 
 let prisma = new PrismaClient();
 
-export default prisma
+(async () => {
+  try {
+    prisma.$connect();
+  } catch (err: any) {
+    log.error(``, err);
+  }
+})();
+
+export default prisma;
