@@ -19,7 +19,7 @@ This is a template for IAM auth server.
 
 ### Notes before starting
 - Refer to `.env.example` for necessary environment variables
-- create a .env.dev for your environment variables
+- create a `.env.dev` for your environment variables
 
 ### Starting the application
 - Install the dependencies
