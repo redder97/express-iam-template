@@ -1,4 +1,4 @@
-import { RegistrationRequest } from '../../api/rest/registration/definition';
+import { RegistrationRequest } from '../../model/defintion';
 import { FoundUser, IUserRepository } from '../../repository/user/definition';
 
 export type RegistrationServiceDependencies = {
