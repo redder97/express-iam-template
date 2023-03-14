@@ -1,8 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { RegistrationRequest } from '../definition';
 import log from 'npmlog';
-import registrationService from '../../../../service/registration/registration-service';
 import { GenericResponse } from '../../definition';
+import { register } from '../../../../service/registration';
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.post(`/v1/register`, async (req: Request, res: Response, next: NextFuncti
   }
 
   try {
-    const result = await registrationService.register(registration);
+    const result = await register(registration);
     const response: GenericResponse<any> = {
       data: result,
       message: 'registration successful',

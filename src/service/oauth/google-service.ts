@@ -2,9 +2,9 @@ import { google } from 'googleapis';
 import config from '../../config';
 import { OAuth2Client } from 'google-auth-library';
 import fetch from 'cross-fetch';
-import { GoogleProfile, GoogleRegistration, UserView } from './definition';
-import registrationService from '../registration/registration-service';
+import { GoogleProfile, GoogleRegistration, UserView } from '../auth/definition';
 import auth from '../../util/auth';
+import { registerWithGoogle } from '../registration';
 
 let oauth2ClientInstance: OAuth2Client;
 
@@ -33,7 +33,7 @@ const generateGoogleAuthorizationUrl = () => {
 };
 
 const handleGoogleProfile = async (googleProfile: GoogleProfile) => {
-  const result = await registrationService.registerWithGoogle(new GoogleRegistration(googleProfile));
+  const result = await registerWithGoogle(new GoogleRegistration(googleProfile));
 
   return { token: auth.signJWT({ id: result.id, ...new UserView(result) }) };
 };

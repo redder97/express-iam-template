@@ -1,7 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { GenericResponse } from '../../definition';
-import authService from '../../../../service/auth/auth-service';
-import googleService from '../../../../service/auth/google-service';
+import googleService from '../../../../service/oauth/google-service';
 import log from 'npmlog';
 import config from '../../../../config';
 
