@@ -28,13 +28,4 @@ router.post(`/v1/register`, async (req: Request, res: Response, next: NextFuncti
   }
 });
 
-router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  const caughtResponse: GenericResponse<any> = {
-    success: false,
-    message: err.message,
-  };
-
-  return res.json(caughtResponse);
-});
-
 export default router;

@@ -17,13 +17,4 @@ router.post('/v1/login', async (req: Request, res: Response, next: NextFunction)
   }
 });
 
-router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  const caughtResponse: GenericResponse<any> = {
-    success: false,
-    message: err.message,
-  };
-
-  return res.json(caughtResponse);
-});
-
 export default router;
