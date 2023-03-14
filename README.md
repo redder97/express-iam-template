@@ -15,7 +15,7 @@ This is a template for IAM auth server.
 - Public Key:
 `openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub`
 
-- create a `/certs` file and copy generated keys.
+- create a `/certs` folder and copy generated keys.
 
 ### Notes before starting
 - Refer to `.env.example` for necessary environment variables
