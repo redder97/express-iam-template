@@ -24,15 +24,8 @@ const signJWT = (payload: JWTpayload) => {
   return token;
 }
 
-const getJWK = () => {
-  const secretBuffer = fs.readFileSync('./certs/jwtRS256.key')
-
-  return {keys: [rsaPemToJwk(secretBuffer, {use: 'sig'}, 'public')]};
-}
-
 export default Object.freeze({
     hashPassword,
     comparePassword,
     signJWT,
-    getJWK
 })

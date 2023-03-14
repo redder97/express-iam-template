@@ -5,7 +5,7 @@ import AuthController from './api/rest/auth/v1/auth-controller';
 import RegistrationController from './api/rest/registration/v1/register-controller';
 import GoogleController from './api/rest/google/v1/google-controller';
 import config from './config';
-import auth from './util/auth';
+import jwks from './configuration/token/jwks';
 
 const PORT = config.PORT;
 
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/public/.well-known/jwks.json', (req: Request, res: Response) => {
-  return res.json(auth.getJWK());
+  return res.json(jwks.getJWK());
 });
 
 app.use('/api', AuthController);

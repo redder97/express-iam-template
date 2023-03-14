@@ -3,7 +3,6 @@ import { RegistrationRequest } from '../../api/rest/registration/definition';
 import log from 'npmlog';
 import util from '../../util/auth';
 import { GoogleProfile, GoogleRegistration } from '../auth/definition';
-import datasource from '../../database/datasource';
 import userRepository from '../../repository/user-repository';
 
 const register = async (registration: RegistrationRequest) => {

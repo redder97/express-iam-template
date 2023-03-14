@@ -1,7 +1,7 @@
 import log from 'npmlog';
-import prisma from '../database/datasource';
 import { GoogleRegistration } from '../service/auth/definition';
 import { RegistrationRequest } from '../api/rest/registration/definition';
+import prisma from '../configuration/database/datasource';
 
 const prismaClient = prisma;
 
