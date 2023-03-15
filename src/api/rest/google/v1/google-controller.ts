@@ -1,7 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { GenericResponse } from '../../definition';
-import authService from '../../../../service/auth/auth-service';
-import googleService from '../../../../service/auth/google-service';
+import googleService from '../../../../service/oauth/google-service';
 import log from 'npmlog';
 import config from '../../../../config';
 
@@ -21,18 +19,9 @@ router.get('/v1/google/callback', async (req: Request, res: Response, next: Next
 
     res.redirect(`${config.OAUTH_SUCCESS_REDIRECT}?token=${jwt.token}`);
   } catch (err: any) {
-    log.error(``, err);
+    log.error(`[${process.pid}]`, err);
     next(err);
   }
-});
-
-router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  const caughtResponse: GenericResponse<any> = {
-    success: false,
-    message: err.message,
-  };
-
-  return res.json(caughtResponse);
 });
 
 export default router;

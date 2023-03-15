@@ -2,9 +2,9 @@ import { google } from 'googleapis';
 import config from '../../config';
 import { OAuth2Client } from 'google-auth-library';
 import fetch from 'cross-fetch';
-import { GoogleProfile, GoogleRegistration, UserView } from './definition';
-import registrationService from '../registration/registration-service';
+import { GoogleProfile, GoogleRegistration, UserView } from '../auth/definition';
 import auth from '../../util/auth';
+import { registerWithGoogle } from '../registration';
 
 let oauth2ClientInstance: OAuth2Client;
 
@@ -20,7 +20,7 @@ const oauth2Client = () => {
   return oauth2ClientInstance;
 };
 
-const scopes = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'];
+const scopes = 'https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/userinfo.profile';
 
 const authorizationUrl = oauth2Client().generateAuthUrl({
   access_type: 'offline',
@@ -33,14 +33,14 @@ const generateGoogleAuthorizationUrl = () => {
 };
 
 const handleGoogleProfile = async (googleProfile: GoogleProfile) => {
-  const result = await registrationService.registerWithGoogle(new GoogleRegistration(googleProfile));
+  const result = await registerWithGoogle(new GoogleRegistration(googleProfile));
 
   return { token: auth.signJWT({ id: result.id, ...new UserView(result) }) };
 };
 
 const getGoogleProfile = async (accessToken: string): Promise<GoogleProfile> => {
   const headers = { Authorization: `Bearer ${accessToken}` };
-  const scopesAsString = scopes.join(',');
+  const scopesAsString = scopes;
 
   const result = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?scope=${scopesAsString}`, { headers });
 
@@ -55,5 +55,5 @@ export default Object.freeze({
   generateGoogleAuthorizationUrl,
   oauth2Client,
   handleGoogleProfile,
-  getGoogleProfile
+  getGoogleProfile,
 });

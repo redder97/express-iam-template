@@ -5,3 +5,9 @@ export type RegistrationRequest = {
     email: string,
     provider: string
 }
+
+export type GenericResponse<T> = {
+    success: boolean,
+    data?: T,
+    message?: string
+}

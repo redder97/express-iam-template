@@ -1,8 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { RegistrationRequest } from '../definition';
 import log from 'npmlog';
-import registrationService from '../../../../service/registration/registration-service';
-import { GenericResponse } from '../../definition';
+import { register } from '../../../../service/registration';
+import { RegistrationRequest, GenericResponse } from '../../../../model/defintion';
 
 const router = express.Router();
 
@@ -14,7 +13,7 @@ router.post(`/v1/register`, async (req: Request, res: Response, next: NextFuncti
   }
 
   try {
-    const result = await registrationService.register(registration);
+    const result = await register(registration);
     const response: GenericResponse<any> = {
       data: result,
       message: 'registration successful',
@@ -23,18 +22,9 @@ router.post(`/v1/register`, async (req: Request, res: Response, next: NextFuncti
 
     return res.json(response);
   } catch (err: any) {
-    log.error(``, err);
+    log.error(`[${process.pid}]`, err);
     next(err);
   }
-});
-
-router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  const caughtResponse: GenericResponse<any> = {
-    success: false,
-    message: err.message,
-  };
-
-  return res.json(caughtResponse);
 });
 
 export default router;
