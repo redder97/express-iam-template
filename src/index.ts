@@ -1,3 +1,7 @@
+import os from 'os';
+import cluster from 'node:cluster';
+import process from 'process';
+
 import express, { NextFunction, Request, Response } from 'express';
 import log from 'npmlog';
 import bodyParser from 'body-parser';
@@ -8,31 +12,49 @@ import config from './config';
 import jwks from './configuration/token/jwks';
 import { GenericResponse } from './model/defintion';
 
-const PORT = config.PORT;
+const numCPUs = os.cpus().length;
 
-const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+if (cluster.isPrimary) {
+  log.info(`[${process.pid}]`, `Primary cluster is running`);
+  log.info(`[${process.pid}]`, `${numCPUs} num of CPUs detected`)
 
-app.get('/public/.well-known/jwks.json', (req: Request, res: Response) => {
-  return res.json(jwks.getJWK());
-});
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
 
-app.use('/api', AuthController);
-app.use('/api', RegistrationController);
-app.use('/api', GoogleController);
+  cluster.on('exit', (worker, code, signal) => {
+    log.info(``, `Worker ${worker.process.pid} has died`);
+  });
+} else {
+  log.info(`[${process.pid}]`, `Worker has started`);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  const message = err ? err.message : 'An unexpected error occurred';
+  const PORT = config.PORT;
 
-  const caughtResponse: GenericResponse<any> = {
-    success: false,
-    message,
-  };
+  const app = express();
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
 
-  return res.json(caughtResponse);
-});
+  app.get('/public/.well-known/jwks.json', (req: Request, res: Response) => {
+    return res.json(jwks.getJWK());
+  });
 
-app.listen(PORT, () => {
-  log.info(``, `IAM server started at port ${PORT}`);
-});
+  app.use('/api', AuthController);
+  app.use('/api', RegistrationController);
+  app.use('/api', GoogleController);
+
+  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    const message = err ? err.message : 'An unexpected error occurred';
+
+    const caughtResponse: GenericResponse<any> = {
+      success: false,
+      message,
+    };
+
+    return res.json(caughtResponse);
+  });
+
+  app.listen(PORT, () => {
+    log.info(`[${process.pid}]`, `IAM server started at port ${PORT}`);
+  });
+
+}
