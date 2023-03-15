@@ -1,7 +1,7 @@
 import log from 'npmlog';
-import { RegistrationRequest } from '../../../api/rest/registration/definition';
 import { IUserRepository } from '../../../repository/user/definition';
 import auth from '../../../util/auth';
+import { RegistrationRequest } from '../../../model/defintion';
 
 export interface MakeRegisterDependencies {
   userRepository: IUserRepository;

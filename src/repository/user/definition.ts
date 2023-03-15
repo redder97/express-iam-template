@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { RegistrationRequest } from '../../api/rest/registration/definition';
 import { GoogleRegistration } from '../../service/auth/definition';
+import { RegistrationRequest } from '../../model/defintion';
 
 export type FoundUser = {
   id: number;

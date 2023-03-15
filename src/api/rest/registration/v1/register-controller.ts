@@ -1,8 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { RegistrationRequest } from '../definition';
 import log from 'npmlog';
-import { GenericResponse } from '../../definition';
 import { register } from '../../../../service/registration';
+import { RegistrationRequest, GenericResponse } from '../../../../model/defintion';
 
 const router = express.Router();
 

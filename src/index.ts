@@ -6,7 +6,7 @@ import RegistrationController from './api/rest/registration/v1/register-controll
 import GoogleController from './api/rest/google/v1/google-controller';
 import config from './config';
 import jwks from './configuration/token/jwks';
-import { GenericResponse } from './api/rest/definition';
+import { GenericResponse } from './model/defintion';
 
 const PORT = config.PORT;
 

@@ -1,8 +1,8 @@
 import log from 'npmlog';
 import { GoogleRegistration } from '../../service/auth/definition';
-import { RegistrationRequest } from '../../api/rest/registration/definition';
 import prisma from '../../configuration/database/datasource';
 import { IUserRepository, UserRepositoryDependecies } from './definition';
+import { RegistrationRequest } from '../../model/defintion';
 
 const makeUserRepository = ({dbClient}: UserRepositoryDependecies): IUserRepository => {
 
