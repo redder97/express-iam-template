@@ -87,7 +87,7 @@ const makeUserRepository = ({dbClient}: UserRepositoryDependecies): IUserReposit
         data: user,
       });
     } catch (err) {
-      log.error(`DB`, `Error creating user`);
+      log.error(`[${process.pid}]`, ` DB Error creating user`);
       throw err;
     }
   };
@@ -100,7 +100,7 @@ const makeUserRepository = ({dbClient}: UserRepositoryDependecies): IUserReposit
         },
       });
     } catch (err) {
-      log.err(`DB`, err);
+      log.err(`[${process.pid}]`, err);
       throw Error('Error on data Layer');
     }
   };

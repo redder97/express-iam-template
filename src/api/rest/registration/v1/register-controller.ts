@@ -22,7 +22,7 @@ router.post(`/v1/register`, async (req: Request, res: Response, next: NextFuncti
 
     return res.json(response);
   } catch (err: any) {
-    log.error(``, err);
+    log.error(`[${process.pid}]`, err);
     next(err);
   }
 });

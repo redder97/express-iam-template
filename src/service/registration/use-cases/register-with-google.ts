@@ -27,8 +27,8 @@ const makeRegisterWithGoogle = ({ userRepository }: MakeRegisterWithGoogleDepend
 
       return createdUser;
     } catch (err: any) {
-      log.error(`DB`, err);
-      log.error(`DB`, `Failed to create user`);
+      log.error(`[${process.pid}]`, err);
+      log.error(`[${process.pid}]`, `DB Failed to create user`);
 
       throw err;
     }

@@ -19,7 +19,7 @@ router.get('/v1/google/callback', async (req: Request, res: Response, next: Next
 
     res.redirect(`${config.OAUTH_SUCCESS_REDIRECT}?token=${jwt.token}`);
   } catch (err: any) {
-    log.error(``, err);
+    log.error(`[${process.pid}]`, err);
     next(err);
   }
 });

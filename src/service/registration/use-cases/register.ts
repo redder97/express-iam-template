@@ -25,8 +25,8 @@ const makeRegister = ({ userRepository }: MakeRegisterDependencies) => {
 
       return createdUser;
     } catch (err: any) {
-      log.error(`DB`, err);
-      log.error(`DB`, `Failed to create user`);
+      log.error(`[${process.pid}]`, err);
+      log.error(`[${process.pid}]`, `Failed to create user`);
 
       throw err;
     }
